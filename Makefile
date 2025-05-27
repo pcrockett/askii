@@ -17,6 +17,8 @@ PACPATH=$(DIST)/$(PAC)
 OSXPATH=$(DIST)/osx/$(BIN)
 WINPATH=$(DIST)/win/$(BIN).exe
 
+CI_IMAGE=askii-ci
+
 .PHONY: all
 all: $(BINPATH) $(DEBPATH) $(RPMPATH) $(PACPATH)
 
@@ -106,3 +108,7 @@ release: distclean everything
 	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(PAC) -f $(PACPATH)
 	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(BIN)-osx -f $(OSXPATH)
 	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(BIN).exe -f $(WINPATH)
+
+.PHONY: ci
+ci:
+	docker build --tag $(CI_IMAGE) .
