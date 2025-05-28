@@ -112,3 +112,7 @@ release: distclean everything
 .PHONY: ci
 ci:
 	docker build --tag $(CI_IMAGE) .
+
+.PHONY: ci-shell
+ci-shell: ci
+	docker run --rm --volume .:/app -it $(CI_IMAGE)
