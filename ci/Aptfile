@@ -1,0 +1,10 @@
+build-essential
+ca-certificates
+jq
+libx11-xcb-dev
+libxcb-render0-dev
+libxcb-shape0-dev
+libxcb-xfixes0-dev
+make
+python3
+rustup

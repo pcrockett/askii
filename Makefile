@@ -109,10 +109,17 @@ release: distclean everything
 	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(BIN)-osx -f $(OSXPATH)
 	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(BIN).exe -f $(WINPATH)
 
-.PHONY: ci
-ci:
-	docker build --tag $(CI_IMAGE) .
+.PHONY: ci-env
+ci-env:
+	docker build --tag $(CI_IMAGE) --file ci/Dockerfile .
 
 .PHONY: ci-shell
-ci-shell: ci
-	docker run --rm --volume .:/app -it $(CI_IMAGE)
+ci-shell: ci-env
+	docker run --rm -it $(CI_IMAGE) /bin/bash
+
+.PHONY: ci
+ci: ci-env
+	docker container rm --force $(CI_IMAGE) || true
+	docker container run --network none --name $(CI_IMAGE) $(CI_IMAGE)
+	rm -rf $(DIST)
+	docker container cp "$(CI_IMAGE):/app/$(DIST)/" $(DIST)
