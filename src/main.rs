@@ -21,6 +21,7 @@
 // - think of a way to do tests (dummy backend + injected events?)
 // - performance of a* is abysmal across large distances
 #![allow(clippy::many_single_char_names)]
+#![deny(warnings)]
 mod editor;
 mod modeline;
 mod tools;
