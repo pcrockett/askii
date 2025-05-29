@@ -23,6 +23,8 @@ jobs:
           fetch-depth: 0
       - name: Setup Python
         uses: actions/setup-python@v5  # for pre-commit
+        with:
+          python-version: "3.13"
       - name: Install Hadolint
         run: |
           curl -SsfL https://philcrockett.com/yolo/v1.sh \
