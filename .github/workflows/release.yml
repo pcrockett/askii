@@ -14,6 +14,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - run: make ci
+    - name: Generate Changelog
+      run: |
+        PREVIOUS_TAG="$(git describe --tags --abbrev=0 --exclude="*pre*")"
+        git log "${PREVIOUS_TAG}..HEAD" --oneline > dist/changelog
     - uses: softprops/action-gh-release@v2
       with:
-        files: dist/bin/askii
+        body_path: dist/changelog
+        files: |
+          dist/bin/askii
+          LICENSE-MIT
+          LICENSE-APACHE
