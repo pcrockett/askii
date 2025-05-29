@@ -25,4 +25,4 @@ cargo fetch && \
 rm -r src
 
 COPY --chown=user:user . .
-CMD [ "make", "dist/bin/askii" ]
+CMD [ "/app/ci/build.sh" ]
