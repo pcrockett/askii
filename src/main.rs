@@ -95,7 +95,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     let editor = EditorView::new(Editor::open(opts)?);
     let mut siv = Cursive::try_new(|| {
         CrossTerm::init()
-            .map(|cross| BufferedBackend::new(cross))
+            .map(BufferedBackend::new)
             .map(|buf| -> Box<dyn Backend> { Box::new(buf) })
     })?;
 
@@ -300,10 +300,10 @@ fn editor_trim_margins(siv: &mut Cursive) {
     notify(siv, "trimmed", "");
 }
 
-fn editor_tool<'a, T: 'static, S: 'a>(apply: S) -> impl Fn(&mut Cursive) + 'a
+fn editor_tool<'a, T, S>(apply: S) -> impl Fn(&mut Cursive) + 'a
 where
-    T: Tool + Default,
-    S: Fn(&mut Options),
+    T: Tool + Default + 'static,
+    S: Fn(&mut Options) + 'a,
 {
     move |siv| {
         with_editor_mut(siv, |editor| {
@@ -313,9 +313,9 @@ where
     }
 }
 
-fn modify_opts<'a, S: 'a>(apply: S) -> impl Fn(&mut Cursive) + 'a
+fn modify_opts<'a, S>(apply: S) -> impl Fn(&mut Cursive) + 'a
 where
-    S: Fn(&mut Options),
+    S: Fn(&mut Options) + 'a,
 {
     move |siv| with_editor_mut(siv, |editor| editor.mut_opts(|o| apply(o)))
 }
