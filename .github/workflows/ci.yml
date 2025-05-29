@@ -12,21 +12,25 @@ permissions:
 
 jobs:
 
-  # pre-commit:
-  #   name: "pre-commit"
-  #   runs-on: ubuntu-latest
+  pre-commit:
+    name: "pre-commit"
+    runs-on: ubuntu-latest
 
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v4
-  #       with:
-  #         fetch-depth: 0
-  #     - name: Setup Python
-  #       uses: actions/setup-python@v5  # for pre-commit
-  #     - name: pre-commit
-  #       uses: pre-commit/action@v3.0.1
-  #       with:
-  #         extra_args: --all --show-diff-on-failure --color=always
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Python
+        uses: actions/setup-python@v5  # for pre-commit
+      - name: Install Hadolint
+        run: |
+          curl -SsfL https://philcrockett.com/yolo/v1.sh \
+            | bash -s -- hadolint
+      - name: pre-commit
+        uses: pre-commit/action@v3.0.1
+        with:
+          extra_args: --all --show-diff-on-failure --color=always
 
   build:
 
