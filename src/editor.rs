@@ -767,7 +767,11 @@ impl Buffer {
                 }
                 let idx = min(line.len() - 1, min_ws);
                 let new = line.split_off(idx);
-                mem::replace(line, new);
+
+                // TODO: `mem::replace` does extra unnecessary work to copy and return
+                // the old `line` back to us. Since we don't need the old value, we
+                // could probably find another solution that does less work.
+                let _ = mem::replace(line, new);
             }
         }
 
