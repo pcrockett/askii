@@ -2,6 +2,7 @@ NAME := $(shell cargo read-manifest | jq -r ".name")
 VERSION := $(shell cargo read-manifest | jq -r ".version" | sed 's/-/_/')
 DESCRIPTION := $(shell cargo read-manifest | jq ".description")
 AUTHOR := $(shell cargo read-manifest | jq ".authors[]")
+TAG=v$(VERSION)
 
 DIST=dist
 
@@ -77,38 +78,6 @@ dev-install:
 install:
 	cargo install --path . --force
 
-CHANGELOG=$(DIST)/changelog
-TAG=v$(VERSION)
-
-.PHONY: pre-release
-pre-release: distclean everything
-	$(eval TOKEN := $(shell cat ~/.github-token-askii))
-	git log $(shell git describe --tags --abbrev=0)..HEAD --oneline > $(CHANGELOG)
-	git tag $(TAG)
-	git push --tags
-	GITHUB_TOKEN=$(TOKEN) TAG=$(TAG) CHANGELOG=$(CHANGELOG) ./release.sh
-	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(BIN) -f $(BINPATH)
-	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(DEB) -f $(DEBPATH)
-	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(RPM) -f $(RPMPATH)
-	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(PAC) -f $(PACPATH)
-	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(BIN)-osx -f $(OSXPATH)
-	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(BIN).exe -f $(WINPATH)
-
-.PHONY: release
-release: distclean everything
-	$(eval TOKEN := $(shell cat ~/.github-token-askii))
-	git log $(shell git describe --tags --abbrev=0 --exclude="*pre*")..HEAD --oneline > $(CHANGELOG)
-	cargo publish
-	git tag $(TAG)
-	git push --tags
-	GITHUB_TOKEN=$(TOKEN) TAG=$(TAG) CHANGELOG=$(CHANGELOG) ./release.sh
-	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(BIN) -f $(BINPATH)
-	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(DEB) -f $(DEBPATH)
-	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(RPM) -f $(RPMPATH)
-	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(PAC) -f $(PACPATH)
-	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(BIN)-osx -f $(OSXPATH)
-	GITHUB_TOKEN=$(TOKEN) gothub upload -u nytopop -r askii -t $(TAG) -n $(BIN).exe -f $(WINPATH)
-
 .PHONY: ci-env
 ci-env:
 	docker build --tag $(CI_IMAGE) --file ci/Dockerfile .
@@ -123,3 +92,8 @@ ci: ci-env
 	docker container run --network none --name $(CI_IMAGE) $(CI_IMAGE)
 	rm -rf $(DIST)
 	docker container cp "$(CI_IMAGE):/app/$(DIST)/" $(DIST)
+
+.PHONY: release
+release:
+	git tag "$(TAG)"
+	git push --tags

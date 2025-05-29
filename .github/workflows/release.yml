@@ -1,0 +1,27 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - run: make ci
+    - name: Generate Changelog
+      run: |
+        PREVIOUS_TAG="$(git describe --tags --abbrev=0 --exclude="*pre*")"
+        git log "${PREVIOUS_TAG}..HEAD" --oneline > dist/changelog
+    - uses: softprops/action-gh-release@v2
+      with:
+        body_path: dist/changelog
+        files: |
+          dist/bin/askii
+          LICENSE-MIT
+          LICENSE-APACHE
