@@ -2,8 +2,8 @@ FROM docker.io/library/debian:trixie-slim
 ARG DEBIAN_FRONTEND=noninteractive
 
 COPY ./ci/Aptfile /opt/Aptfile
-RUN --mount=target=/var/lib/apt/lists,type=cache,sharing=locked \
-    --mount=target=/var/cache/apt,type=cache,sharing=locked \
+RUN --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
+    --mount=type=cache,target=/var/cache/apt,sharing=locked \
 rm -f /etc/apt/apt.conf.d/docker-clean && \
 apt-get update && \
 xargs apt-get install --yes --no-install-recommends < /opt/Aptfile && \
@@ -17,7 +17,7 @@ WORKDIR /app
 COPY --chown=user:user ./rust-toolchain .
 RUN xargs rustup toolchain install < rust-toolchain
 
-COPY --chown=user:user ./Cargo.toml ./Cargo.lock .
+COPY --chown=user:user ./Cargo.toml ./Cargo.lock ./
 RUN \
 mkdir src && \
 touch src/main.rs && \
