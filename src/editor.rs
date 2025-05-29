@@ -1078,6 +1078,7 @@ struct OrdFloat(f64);
 
 impl Eq for OrdFloat {}
 
+#[allow(clippy::derive_ord_xor_partial_ord)]
 impl Ord for OrdFloat {
     #[inline]
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
@@ -1125,7 +1126,7 @@ fn within(w: usize, a: usize, b: usize) -> bool {
 
 /// Returns the absolute difference between `a` and `b`.
 fn diff(a: usize, b: usize) -> usize {
-    (a as isize - b as isize).abs() as usize
+    (a as isize - b as isize).unsigned_abs()
 }
 
 /// Returns the slope between points at `src` and `dst`.
