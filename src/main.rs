@@ -33,7 +33,8 @@ use tools::{PathMode::*, *};
 use ui::*;
 
 use cursive::{
-    backend::{crossterm::Backend as CrossTerm, Backend},
+    backend::Backend,
+    backends::crossterm::Backend as CrossTerm,
     event::{EventTrigger, Key},
     logger,
     menu::MenuTree,
