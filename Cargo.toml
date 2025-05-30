@@ -21,6 +21,6 @@ num-traits = "0.2"
 clipboard = "0.5"
 
 [dependencies.cursive]
-version = "0.17"
+version = "0.20"
 default-features = false
 features = ["termion-backend", "unstable_scroll"]
