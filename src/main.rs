@@ -34,7 +34,7 @@ use ui::*;
 
 use cursive::{
     backend::Backend,
-    backends::crossterm::Backend as CrossTerm,
+    backends::termion::Backend as Termion,
     event::{EventTrigger, Key},
     logger,
     menu::MenuTree,
@@ -95,7 +95,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     let editor = EditorView::new(Editor::open(opts)?);
     let mut siv = Cursive::try_new(|| {
-        CrossTerm::init()
+        Termion::init()
             .map(BufferedBackend::new)
             .map(|buf| -> Box<dyn Backend> { Box::new(buf) })
     })?;

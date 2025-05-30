@@ -24,4 +24,4 @@ cursive_buffered_backend = "0.4"
 [dependencies.cursive]
 version = "0.15"
 default-features = false
-features = ["crossterm-backend", "unstable_scroll"]
+features = ["termion-backend", "unstable_scroll"]
