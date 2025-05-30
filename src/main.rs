@@ -33,16 +33,13 @@ use tools::{PathMode::*, *};
 use ui::*;
 
 use cursive::{
-    backend::Backend,
-    backends::termion::Backend as Termion,
     event::{EventTrigger, Key},
     logger,
-    menu::MenuTree,
+    menu::Tree as MenuTree,
     view::{scroll::Scroller, Nameable, View},
     views::{Dialog, LinearLayout, OnEventView, ScrollView},
-    Cursive,
+    Cursive, CursiveExt,
 };
-use cursive_buffered_backend::BufferedBackend;
 use log::debug;
 use std::{env, error::Error, path::PathBuf};
 use structopt::StructOpt;
@@ -94,11 +91,7 @@ fn main() -> Result<(), Box<dyn Error>> {
     debug!("{:?}", opts);
 
     let editor = EditorView::new(Editor::open(opts)?);
-    let mut siv = Cursive::try_new(|| {
-        Termion::init()
-            .map(BufferedBackend::new)
-            .map(|buf| -> Box<dyn Backend> { Box::new(buf) })
-    })?;
+    let mut siv = Cursive::new();
 
     use PathMode::*;
 
@@ -192,7 +185,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     siv.add_fullscreen_layer(layout);
 
-    siv.run();
+    siv.run_termion().unwrap();
 
     Ok(())
 }

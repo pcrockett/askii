@@ -19,9 +19,8 @@ line_drawing = "0.8"
 pathfinding = "2.0"
 num-traits = "0.2"
 clipboard = "0.5"
-cursive_buffered_backend = "0.4"
 
 [dependencies.cursive]
-version = "0.15"
+version = "0.17"
 default-features = false
 features = ["termion-backend", "unstable_scroll"]
