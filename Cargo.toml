@@ -11,14 +11,14 @@ repository = "https://github.com/nytopop/askii.git"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-structopt = "0.3"
-log = "0.4"
-lazy_static = "1.4"
-parking_lot = "0.9"
-line_drawing = "0.8"
-pathfinding = "2.0"
-num-traits = "0.2"
-clipboard = "0.5"
+structopt = "*"
+log = "*"
+lazy_static = "*"
+parking_lot = "*"
+line_drawing = "*"
+pathfinding = "*"
+num-traits = "*"
+clipboard = "*"
 
 [dependencies.cursive]
 version = "0.20"
