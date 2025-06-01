@@ -10,8 +10,8 @@
     <img alt="Crates.io" src="https://img.shields.io/crates/d/askii?style=flat-square">
   </a>
   <!-- github release downloads --!>
-  <a href="https://github.com/nytopop/askii/releases">
-    <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/nytopop/askii/total?style=flat-square">
+  <a href="https://github.com/pcrockett/askii/releases">
+    <img alt="GitHub All Releases" src="https://img.shields.io/github/downloads/pcrockett/askii/total?style=flat-square">
   </a>
   <!-- crates.io license --!>
   <a href="./LICENSE-APACHE">
@@ -23,17 +23,28 @@
 
 TUI based ASCII diagram editor.
 
+_This is a fork of [nytopop/askii](https://github.com/nytopop/askii). The **real** hard
+work was done there. This fork just attempts to restore maintenance, bring dependencies
+up-to-date, introduce a continuous integration (CI) process, add quality gates, etc.
+However there are two big caveats:_
+
+* _Windows support is completely dropped._
+* _macOS can technically be supported, however it is untested and not included in the CI
+  or release process here._
+
 # Installation
-Install a [binary release](https://github.com/nytopop/askii/releases), or use `cargo install askii` to compile the latest source release from [crates.io](https://crates.io/crates/askii).
+Install a [binary release](https://github.com/pcrockett/askii/releases).
 
 # Compilation
-The binary links against a few X11 libs for clipboard functionality (on linux), so make sure they are available during compilation. On debian, they can be installed with:
+If you have `docker` installed, run `make ci` to generate an executable.
 
-```
-apt install libxcb1-dev libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev libxau-dev libxdmcp-dev
-```
+The binary links against a few X11 libs for clipboard functionality (on Linux), so if
+you want to compile without `docker`, make sure those libraries are available during
+compilation. On Debian, check out the [Aptfile](./ci/Aptfile) to see what packages are
+needed to do a build.
 
-Use `cargo` to compile. Alternatively, the [`Makefile`](Makefile) can be used to build a binary and deb / rpm / pacman packages.
+Use `cargo` to compile. Alternatively, the [`Makefile`](./Makefile) can be used to build
+a binary and deb / rpm / pacman packages.
 
 ```
 cd askii && make
@@ -51,10 +62,13 @@ It requires:
 # License
 Licensed under either of
 
- * Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
- * MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
+* Apache License, Version 2.0, ([LICENSE-APACHE](./LICENSE-APACHE) or
+  <http://www.apache.org/licenses/LICENSE-2.0>)
+* MIT license ([LICENSE-MIT](./LICENSE-MIT) or <http://opensource.org/licenses/MIT>)
 
 at your option.
 
 ## Contribution
-Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
+Unless you explicitly state otherwise, any contribution intentionally submitted for
+inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual
+licensed as above, without any additional terms or conditions.
