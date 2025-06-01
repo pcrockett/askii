@@ -89,5 +89,7 @@ ci: ci-env
 
 .PHONY: release
 release:
+	test "$(shell git branch --show-current)" == master
+	git pull --ff-only
 	git tag "$(TAG)"
 	git push --tags
