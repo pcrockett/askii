@@ -23,7 +23,7 @@ CI_IMAGE=askii-ci
 all: $(BINPATH) $(DEBPATH) $(RPMPATH) $(PACPATH)
 
 $(BINPATH):
-	cargo build --release
+	cargo build --release --frozen
 	mkdir -p $(DIST)/bin
 	cp target/release/$(BIN) $(BINPATH)
 
@@ -40,7 +40,7 @@ OSX_PREFIX=/usr/local/osx-ndk-x86
 
 $(OSXPATH):
 	mkdir -p $(DIST)/osx
-	PKG_CONFIG_ALLOW_CROSS=1 PATH=$(OSX_PREFIX)/bin:$$PATH LD_LIBRARY_PATH=$(OSX_PREFIX)/lib cargo build --target=x86_64-apple-darwin --release
+	PKG_CONFIG_ALLOW_CROSS=1 PATH=$(OSX_PREFIX)/bin:$$PATH LD_LIBRARY_PATH=$(OSX_PREFIX)/lib cargo build --target=x86_64-apple-darwin --release --frozen
 	cp target/x86_64-apple-darwin/release/$(BIN) $(OSXPATH)
 
 .PHONY: cross

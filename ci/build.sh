@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-cargo clippy
 make dist/bin/askii
+cargo check --future-incompat-report --release --frozen
