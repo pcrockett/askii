@@ -16,7 +16,6 @@ DEBPATH=$(DIST)/$(DEB)
 RPMPATH=$(DIST)/$(RPM)
 PACPATH=$(DIST)/$(PAC)
 OSXPATH=$(DIST)/osx/$(BIN)
-WINPATH=$(DIST)/win/$(BIN).exe
 
 CI_IMAGE=askii-ci
 
@@ -44,13 +43,8 @@ $(OSXPATH):
 	PKG_CONFIG_ALLOW_CROSS=1 PATH=$(OSX_PREFIX)/bin:$$PATH LD_LIBRARY_PATH=$(OSX_PREFIX)/lib cargo build --target=x86_64-apple-darwin --release
 	cp target/x86_64-apple-darwin/release/$(BIN) $(OSXPATH)
 
-$(WINPATH):
-	mkdir -p $(DIST)/win
-	cargo build --target=x86_64-pc-windows-gnu --release
-	cp target/x86_64-pc-windows-gnu/release/$(BIN).exe $(WINPATH)
-
 .PHONY: cross
-cross: $(OSXPATH) $(WINPATH)
+cross: $(OSXPATH)
 
 .PHONY: everything
 everything: all cross
