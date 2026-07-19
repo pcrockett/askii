@@ -3,7 +3,6 @@
 // http://opensource.org/licenses/MIT>, at your option. This file may not be
 // copied, modified, or distributed except according to those terms.
 use super::{tools::*, Options};
-use clipboard::{ClipboardContext, ClipboardProvider};
 use core::ops::Add;
 use cursive::{
     event::{Event, EventResult, MouseButton::*, MouseEvent::*},
@@ -19,7 +18,6 @@ use parking_lot::{Mutex, RwLock, RwLockReadGuard, RwLockWriteGuard};
 use pathfinding::directed::astar::astar;
 use std::{
     cmp::{max, min},
-    error::Error,
     f64::consts::SQRT_2,
     fs::{self, File, OpenOptions},
     io::{self, BufRead, BufReader, ErrorKind, Read, Write},
@@ -465,25 +463,6 @@ impl Editor {
         file.sync_all()?;
 
         Ok(())
-    }
-
-    /// Render to the clipboard, prefixing all lines with `prefix`.
-    ///
-    /// Trims all margins in the output without changing the buffer's state.
-    pub(crate) fn render_to_clipboard(&self, prefix: &str) -> Result<(), Box<dyn Error>> {
-        let mut ctx = ClipboardContext::new()?;
-
-        let mut buf = self.buffer.clone();
-        buf.strip_margin_whitespace();
-
-        let mut rendered: String = buf.iter(prefix).collect();
-        if let Some(c) = rendered.pop() {
-            if c != '\n' {
-                rendered.push(c);
-            }
-        }
-
-        ctx.set_contents(rendered)
     }
 
     /// Trim all whitespace from margins.

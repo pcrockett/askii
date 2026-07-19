@@ -18,7 +18,6 @@ parking_lot = "*"
 line_drawing = "*"
 pathfinding = "*"
 num-traits = "*"
-clipboard = "*"
 
 [dependencies.cursive]
 version = "0.20"

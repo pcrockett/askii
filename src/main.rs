@@ -103,8 +103,6 @@ fn main() -> Result<(), Box<dyn Error>> {
                 .leaf("(o) Open", editor_open)
                 .leaf("(s) Save", editor_save)
                 .leaf("(S) Save As", editor_save_as)
-                .leaf("(c) Clip", editor_clip)
-                .leaf("(C) Clip Prefix", editor_clip_prefix)
                 .delimiter()
                 .leaf("(`) Debug", Cursive::toggle_debug_console)
                 .leaf("(q) Quit", editor_quit),
@@ -148,8 +146,6 @@ fn main() -> Result<(), Box<dyn Error>> {
     siv.add_global_callback('o', editor_open);
     siv.add_global_callback('s', editor_save);
     siv.add_global_callback('S', editor_save_as);
-    siv.add_global_callback('c', editor_clip);
-    siv.add_global_callback('C', editor_clip_prefix);
     siv.add_global_callback('`', Cursive::toggle_debug_console);
     siv.add_global_callback('q', editor_quit);
 
@@ -255,24 +251,6 @@ fn editor_save_as(siv: &mut Cursive) {
         match with_editor_mut(siv, |e| e.save_as(path)).map_err(|e| format!("{:?}", e)) {
             Ok(()) => notify(siv, "saved", ""),
             Err(e) => notify(siv, "save as failed", e),
-        }
-    });
-}
-
-fn editor_clip(siv: &mut Cursive) {
-    match with_editor(siv, |e| e.render_to_clipboard("")).map_err(|e| format!("{:?}", e)) {
-        Ok(()) => notify(siv, "clipped", ""),
-        Err(e) => notify(siv, "clip failed", e),
-    }
-}
-
-fn editor_clip_prefix(siv: &mut Cursive) {
-    display_form(siv, "Clip Prefix", |siv, _, prefix| {
-        siv.pop_layer();
-
-        match with_editor(siv, |e| e.render_to_clipboard(prefix)).map_err(|e| format!("{:?}", e)) {
-            Ok(()) => notify(siv, "clipped", ""),
-            Err(e) => notify(siv, "clip failed", e),
         }
     });
 }

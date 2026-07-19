@@ -27,10 +27,8 @@ Install a [binary release](https://github.com/pcrockett/askii/releases).
 # Compilation
 If you have `docker` installed, run `make ci` to generate an executable.
 
-The binary links against a few X11 libs for clipboard functionality (on Linux), so if
-you want to compile without `docker`, make sure those libraries are available during
-compilation. On Debian, check out the [Aptfile](./ci/Aptfile) to see what packages are
-needed to do a build.
+On Debian, check out the [Aptfile](./ci/Aptfile) to see what packages are needed to do
+a build.
 
 Use `cargo` to compile. Alternatively, the [`Makefile`](./Makefile) can be used to build
 a binary and deb / rpm / pacman packages.
