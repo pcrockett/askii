@@ -20,13 +20,8 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
           persist-credentials: false
+      - uses: pcrockett/setup-hadolint@40edb165213ff85f31bcea58c3bcb649681cb3c1 # v0.1.0
       - uses: pcrockett/setup-pre-commit@19ef06ee4c041b82a9ad48337154bd4429158560 # v0.1.0
-      - name: Install Hadolint
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          curl -SsfL https://philcrockett.com/yolo/v2.sh \
-            | bash -s -- hadolint
       - run: |
           pre-commit run --all --show-diff-on-failure --color=always
 
