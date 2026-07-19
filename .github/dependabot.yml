@@ -6,3 +6,9 @@ updates:
       prefix: "chore"
     schedule:
       interval: "weekly"
+    cooldown:
+      default-days: 7
+    groups:
+      all:
+        patterns:
+          - "*"

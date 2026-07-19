@@ -17,30 +17,27 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          fetch-depth: 0
-      - name: Setup Python
-        uses: actions/setup-python@v5  # for pre-commit
-        with:
-          python-version: "3.13"
+          persist-credentials: false
+      - uses: pcrockett/setup-pre-commit@19ef06ee4c041b82a9ad48337154bd4429158560 # v0.1.0
       - name: Install Hadolint
         run: |
-          curl -SsfL https://philcrockett.com/yolo/v1.sh \
+          curl -SsfL https://philcrockett.com/yolo/v2.sh \
             | bash -s -- hadolint
-      - name: pre-commit
-        uses: pre-commit/action@v3.0.1
-        with:
-          extra_args: --all --show-diff-on-failure --color=always
+      - run: |
+          pre-commit run --all --show-diff-on-failure --color=always
 
   build:
 
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      with:
+        persist-credentials: false
     - run: make ci
 
-    - uses: actions/upload-artifact@v4
+    - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
       with:
         name: askii
         path: dist/bin/askii
