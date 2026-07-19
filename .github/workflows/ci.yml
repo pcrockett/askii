@@ -22,6 +22,8 @@ jobs:
           persist-credentials: false
       - uses: pcrockett/setup-pre-commit@19ef06ee4c041b82a9ad48337154bd4429158560 # v0.1.0
       - name: Install Hadolint
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           curl -SsfL https://philcrockett.com/yolo/v2.sh \
             | bash -s -- hadolint
