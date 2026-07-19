@@ -289,11 +289,11 @@ impl EditorView {
         }
     }
 
-    pub(crate) fn read(&self) -> RwLockReadGuard<Editor> {
+    pub(crate) fn read<'a>(&'a self) -> RwLockReadGuard<'a, Editor> {
         self.inner.read()
     }
 
-    pub(crate) fn write(&self) -> RwLockWriteGuard<Editor> {
+    pub(crate) fn write<'a>(&'a self) -> RwLockWriteGuard<'a, Editor> {
         self.inner.write()
     }
 }
